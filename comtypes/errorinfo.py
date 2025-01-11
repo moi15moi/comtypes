@@ -1,8 +1,8 @@
 import sys
-from ctypes import *
+from ctypes import POINTER, WinDLL, byref, c_wchar_p
 from ctypes.wintypes import DWORD, ULONG
-from comtypes import IUnknown, HRESULT, COMMETHOD, GUID, BSTR
-from comtypes.hresult import *
+from comtypes import BSTR, COMMETHOD, GUID, HRESULT, IUnknown
+from comtypes.hresult import DISP_E_EXCEPTION, S_OK
 
 LPCOLESTR = c_wchar_p
 
