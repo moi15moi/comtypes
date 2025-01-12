@@ -26,9 +26,14 @@ class PROCESS_MEMORY_COUNTERS(Structure):
         for n, _ in self._fields_[2:]:
             print(n, getattr(self, n) / 1e6)
 
+_psapi = WinDLL("psapi")
+
+_GetProcessMemoryInfo = _psapi.GetProcessMemoryInfo
+_GetProcessMemoryInfo.argtypes = [HANDLE, POINTER(PROCESS_MEMORY_COUNTERS), DWORD]
+_GetProcessMemoryInfo.restype = BOOL
 
 try:
-    windll.psapi.GetProcessMemoryInfo.argtypes = (
+    _GetProcessMemoryInfo.argtypes = (
         HANDLE,
         POINTER(PROCESS_MEMORY_COUNTERS),
         DWORD,
@@ -43,7 +48,7 @@ else:
     def wss():
         # Return the working set size (memory used by process)
         pmi = PROCESS_MEMORY_COUNTERS()
-        if not windll.psapi.GetProcessMemoryInfo(-1, byref(pmi), sizeof(pmi)):
+        if not _GetProcessMemoryInfo(-1, byref(pmi), sizeof(pmi)):
             raise WinError()
         return pmi.WorkingSetSize
 
