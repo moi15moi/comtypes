@@ -7,6 +7,7 @@ from ctypes import alignment, byref, c_void_p, sizeof, windll
 from comtypes import automation, BSTR, COMError, typeinfo
 from comtypes.tools import typedesc
 from comtypes.client._code_cache import _get_module_filename
+from comtypes.typeinfo import _QueryPathOfRegTypeLib
 
 
 # Is the process 64-bit?
@@ -742,9 +743,13 @@ def get_tlib_filename(tlib: typeinfo.ITypeLib) -> Optional[str]:
     # determine the filename.
     la = tlib.GetLibAttr()
     name = BSTR()
-    if 0 == windll.oleaut32.QueryPathOfRegTypeLib(
-        byref(la.guid), la.wMajorVerNum, la.wMinorVerNum, 0, byref(name)
-    ):
+    try:
+        _QueryPathOfRegTypeLib(
+            byref(la.guid), la.wMajorVerNum, la.wMinorVerNum, 0, byref(name)
+        )
+    except OSError:
+        return None
+    else:
         full_filename = name.value.split("\0")[0]
         if not os.path.isabs(full_filename):
             # workaround Windows 7 bug in QueryPathOfRegTypeLib returning relative path
@@ -755,7 +760,6 @@ def get_tlib_filename(tlib: typeinfo.ITypeLib) -> Optional[str]:
             except OSError:
                 return None
         return full_filename
-    return None
 
 
 def _py2exe_hint():
