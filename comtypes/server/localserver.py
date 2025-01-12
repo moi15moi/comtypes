@@ -1,11 +1,13 @@
 import logging
 import queue
-import sys
-from ctypes import byref, c_ulong, c_void_p, oledll
+from ctypes import HRESULT, POINTER, WinDLL, byref, c_ulong, c_void_p
+from ctypes.wintypes import DWORD, LPDWORD
 from typing import TYPE_CHECKING, Any, Literal, Optional, Sequence, Type
 
 import comtypes
 from comtypes import hresult
+from comtypes._post_coinit.unknwn import IUnknown
+from comtypes.GUID import GUID
 from comtypes.server import IClassFactory
 
 if TYPE_CHECKING:
@@ -21,6 +23,16 @@ REGCLS_MULTI_SEPARATE = 2  # multiple use, but separate control over each
 REGCLS_SUSPENDED = 4  # register it as suspended, will be activated
 REGCLS_SURROGATE = 8  # must be used when a surrogate process
 
+_ole32 = WinDLL("ole32")
+
+REFCLSID = POINTER(GUID)
+_CoRegisterClassObject = _ole32.CoRegisterClassObject
+_CoRegisterClassObject.argtypes = [REFCLSID, POINTER(IUnknown), DWORD, DWORD, LPDWORD]
+_CoRegisterClassObject.restype = HRESULT
+
+_CoRevokeClassObject = _ole32.CoRevokeClassObject
+_CoRevokeClassObject.argtypes = [DWORD]
+_CoRevokeClassObject.restype = HRESULT
 
 def run(classes: Sequence[Type[comtypes.COMObject]]) -> None:
     classobjects = [ClassFactory(cls) for cls in classes]
@@ -52,7 +64,7 @@ class ClassFactory(comtypes.COMObject):
         ptr = self._com_pointers_[comtypes.IUnknown._iid_]
         clsctx = self._cls._reg_clsctx_
         clsctx &= ~comtypes.CLSCTX_INPROC  # reset the inproc flags
-        oledll.ole32.CoRegisterClassObject(
+        _CoRegisterClassObject(
             byref(comtypes.GUID(self._cls._reg_clsid_)),
             ptr,
             clsctx,
@@ -62,7 +74,7 @@ class ClassFactory(comtypes.COMObject):
         self.cookie = cookie
 
     def _revoke_class(self) -> None:
-        oledll.ole32.CoRevokeClassObject(self.cookie)
+        _CoRevokeClassObject(self.cookie)
 
     def CreateInstance(
         self,
