@@ -16,7 +16,7 @@ from ctypes.wintypes import (
     LPDWORD,
     LPHANDLE,
     LPVOID,
-    ULONG
+    ULONG,
 )
 
 from _ctypes import COMError
@@ -39,12 +39,15 @@ _CoWaitForMultipleHandles.restype = HRESULT
 
 _kernel32 = WinDLL("kernel32")
 
+
 class SECURITY_ATTRIBUTES(Structure):
     _fields_ = [
         ("nLength", DWORD),
         ("lpSecurityDescriptor", LPVOID),
         ("bInheritHandle", BOOL),
     ]
+
+
 _CreateEventA = _kernel32.CreateEventA
 _CreateEventA.argtypes = [POINTER(SECURITY_ATTRIBUTES), BOOL, BOOL, LPCSTR]
 _CreateEventA.restype = HANDLE
@@ -61,6 +64,7 @@ _SetConsoleCtrlHandler.restype = BOOL
 _CloseHandle = _kernel32.CloseHandle
 _CloseHandle.argtypes = [HANDLE]
 _CloseHandle.restype = BOOL
+
 
 class _AdviseConnection(object):
     def __init__(self, source, interface, receiver):
@@ -230,9 +234,7 @@ def CreateEventReceiver(interface, handler):
 
     # Since our Sink object doesn't have typeinfo, it needs a
     # _dispimpl_ dictionary to dispatch events received via Invoke.
-    if issubclass(interface, IDispatch) and not hasattr(
-        sink, "_dispimpl_"
-    ):
+    if issubclass(interface, IDispatch) and not hasattr(sink, "_dispimpl_"):
         finder = sink._get_method_finder_(interface)
         dispimpl = sink._dispimpl_ = {}
         for m in interface._methods_:

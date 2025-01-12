@@ -13,7 +13,7 @@ from ctypes import (
     cast,
     memmove,
     sizeof,
-    wstring_at
+    wstring_at,
 )
 from ctypes.wintypes import DWORD, LPVOID
 from unittest.mock import patch

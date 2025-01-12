@@ -31,6 +31,7 @@ _GetRunningObjectTable = _ole32.GetRunningObjectTable
 _GetRunningObjectTable.argtypes = [DWORD, POINTER(POINTER(IRunningObjectTable))]
 _GetRunningObjectTable.restype = HRESULT
 
+
 def _create_item_moniker(delim: str, item: str) -> IMoniker:
     mon = POINTER(IMoniker)()
     _CreateItemMoniker(delim, item, byref(mon))

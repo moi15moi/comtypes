@@ -16,7 +16,10 @@ class Test_IMFAttributes(ut.TestCase):
 
         UINT32 = c_uint32
         _MFCreateAttributes = _mfplat.MFCreateAttributes
-        _MFCreateAttributes.argtypes = [POINTER(POINTER(MSVidCtlLib.IMFAttributes)), UINT32]
+        _MFCreateAttributes.argtypes = [
+            POINTER(POINTER(MSVidCtlLib.IMFAttributes)),
+            UINT32,
+        ]
         _MFCreateAttributes.restype = HRESULT
 
         imf_attrs = POINTER(MSVidCtlLib.IMFAttributes)()

@@ -59,6 +59,7 @@ _SetErrorInfo = _oleaut32.SetErrorInfo
 _SetErrorInfo.argtypes = [ULONG, POINTER(IErrorInfo)]
 _SetErrorInfo.restype = HRESULT
 
+
 def CreateErrorInfo():
     cei = POINTER(ICreateErrorInfo)()
     _CreateErrorInfo(byref(cei))

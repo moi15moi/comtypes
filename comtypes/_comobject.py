@@ -10,7 +10,7 @@ from ctypes import (
     c_long,
     c_void_p,
     c_wchar_p,
-    pointer
+    pointer,
 )
 from ctypes.wintypes import INT, LONG, LPVOID, UINT, ULONG, WORD
 from typing import (
@@ -88,19 +88,39 @@ else:
 _oleaut32 = WinDLL("oleaut32")
 
 _DispGetIDsOfNames = _oleaut32.DispGetIDsOfNames
-_DispGetIDsOfNames.argtypes = [POINTER(ITypeInfo), POINTER(c_wchar_p), UINT, POINTER(DISPID)]
-_DispGetIDsOfNames.restype = LONG # technically, it is a HRESULT, but we want to avoid the OSError
+_DispGetIDsOfNames.argtypes = [
+    POINTER(ITypeInfo),
+    POINTER(c_wchar_p),
+    UINT,
+    POINTER(DISPID),
+]
+_DispGetIDsOfNames.restype = (
+    LONG  # technically, it is a HRESULT, but we want to avoid the OSError
+)
 
 _DispInvoke = _oleaut32.DispInvoke
-_DispInvoke.argtypes = [LPVOID, POINTER(ITypeInfo), DISPID, WORD, POINTER(DISPPARAMS), POINTER(VARIANT), POINTER(EXCEPINFO), POINTER(UINT)]
-_DispInvoke.restype = LONG # technically, it is a HRESULT, but we want to avoid the OSError
+_DispInvoke.argtypes = [
+    LPVOID,
+    POINTER(ITypeInfo),
+    DISPID,
+    WORD,
+    POINTER(DISPPARAMS),
+    POINTER(VARIANT),
+    POINTER(EXCEPINFO),
+    POINTER(UINT),
+]
+_DispInvoke.restype = (
+    LONG  # technically, it is a HRESULT, but we want to avoid the OSError
+)
 
 
 _ole32 = WinDLL("ole32")
 
 _CoInitialize = _ole32.CoInitialize
 _CoInitialize.argtypes = [LPVOID]
-_CoInitialize.restype = LONG # technically, it is a HRESULT, but we want to avoid the OSError
+_CoInitialize.restype = (
+    LONG  # technically, it is a HRESULT, but we want to avoid the OSError
+)
 
 _CoUninitialize = _ole32.CoUninitialize
 _CoUninitialize.argtypes = []
@@ -120,6 +140,7 @@ _user32 = WinDLL("user32")
 _PostQuitMessage = _user32.PostQuitMessage
 _PostQuitMessage.argtypes = [INT]
 _PostQuitMessage.restype = None
+
 
 class LocalServer(object):
     _queue: Optional[queue.Queue] = None

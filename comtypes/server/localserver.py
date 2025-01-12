@@ -35,6 +35,7 @@ _CoRevokeClassObject = _ole32.CoRevokeClassObject
 _CoRevokeClassObject.argtypes = [DWORD]
 _CoRevokeClassObject.restype = HRESULT
 
+
 def run(classes: Sequence[Type[COMObject]]) -> None:
     classobjects = [ClassFactory(cls) for cls in classes]
     COMObject.__run_localserver__(classobjects)

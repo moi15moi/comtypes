@@ -26,6 +26,7 @@ class PROCESS_MEMORY_COUNTERS(Structure):
         for n, _ in self._fields_[2:]:
             print(n, getattr(self, n) / 1e6)
 
+
 _psapi = WinDLL("psapi")
 
 _GetProcessMemoryInfo = _psapi.GetProcessMemoryInfo

@@ -1,13 +1,5 @@
 import unittest as ut
-from ctypes import (
-    HRESULT,
-    POINTER,
-    WinDLL,
-    byref,
-    c_ubyte,
-    c_ulonglong,
-    pointer
-)
+from ctypes import HRESULT, POINTER, WinDLL, byref, c_ubyte, c_ulonglong, pointer
 from ctypes.wintypes import BOOL, HGLOBAL, ULARGE_INTEGER
 
 import comtypes.client
@@ -32,6 +24,7 @@ _shlwapi = WinDLL("shlwapi")
 _IStream_Size = _shlwapi.IStream_Size
 _IStream_Size.argtypes = [POINTER(IStream), POINTER(ULARGE_INTEGER)]
 _IStream_Size.restype = HRESULT
+
 
 def _create_stream() -> IStream:
     # Create an IStream

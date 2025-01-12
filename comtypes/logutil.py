@@ -13,6 +13,7 @@ _OutputDebugStringW = _kernel32.OutputDebugStringW
 _OutputDebugStringW.argtypes = [LPCWSTR]
 _OutputDebugStringW.restype = None
 
+
 class NTDebugHandler(logging.Handler):
     def emit(
         self,

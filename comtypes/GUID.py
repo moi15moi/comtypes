@@ -12,6 +12,7 @@ if TYPE_CHECKING:
 def binary(obj: "GUID") -> bytes:
     return bytes(obj)
 
+
 # Note: Comparing GUID instances by comparing their buffers
 # is slightly faster than using ole32.IsEqualGUID.
 

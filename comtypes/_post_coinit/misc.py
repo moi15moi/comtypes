@@ -10,7 +10,7 @@ from ctypes import (
     c_void_p,
     c_wchar_p,
     cast,
-    pointer
+    pointer,
 )
 from ctypes.wintypes import DWORD, LPCWSTR, LPVOID
 
@@ -31,12 +31,7 @@ from typing import ( # noqa
 if TYPE_CHECKING:
     from comtypes import hints as hints  # noqa  # type: ignore
 
-from comtypes import (
-    CLSCTX_LOCAL_SERVER,
-    CLSCTX_REMOTE_SERVER,
-    CLSCTX_SERVER,
-    GUID
-)
+from comtypes import CLSCTX_LOCAL_SERVER, CLSCTX_REMOTE_SERVER, CLSCTX_SERVER, GUID
 from comtypes._memberspec import COMMETHOD
 from comtypes._post_coinit.unknwn import IUnknown
 
@@ -254,6 +249,7 @@ class _COSERVERINFO(Structure):
         pAuthInfo: _COAUTHINFO
         dwReserved2: int
 
+
 _oleaut32 = WinDLL("oleaut32")
 
 REFCLSID = POINTER(GUID)
@@ -276,12 +272,26 @@ _CoGetClassObject.argtypes = [
 _CoGetClassObject.restype = HRESULT
 
 _CoCreateInstance = _ole32.CoCreateInstance
-_CoCreateInstance.argtypes = [REFCLSID, POINTER(IUnknown), DWORD, POINTER(GUID), POINTER(LPVOID)]
+_CoCreateInstance.argtypes = [
+    REFCLSID,
+    POINTER(IUnknown),
+    DWORD,
+    POINTER(GUID),
+    POINTER(LPVOID),
+]
 _CoCreateInstance.restype = HRESULT
 
 _CoCreateInstanceEx = _ole32.CoCreateInstanceEx
-_CoCreateInstanceEx.argtypes = [REFCLSID, POINTER(IUnknown), DWORD, POINTER(COSERVERINFO), DWORD, POINTER(MULTI_QI)]
+_CoCreateInstanceEx.argtypes = [
+    REFCLSID,
+    POINTER(IUnknown),
+    DWORD,
+    POINTER(COSERVERINFO),
+    DWORD,
+    POINTER(MULTI_QI),
+]
 _CoCreateInstanceEx.restype = HRESULT
+
 
 class tagBIND_OPTS(Structure):
     _fields_ = [
@@ -399,7 +409,5 @@ def CoCreateInstanceEx(
         interface = IUnknown
     multiqi = MULTI_QI()
     multiqi.pIID = pointer(interface._iid_)  # type: ignore
-    _CoCreateInstanceEx(
-        byref(clsid), None, clsctx, pServerInfo, 1, byref(multiqi)
-    )
+    _CoCreateInstanceEx(byref(clsid), None, clsctx, pServerInfo, 1, byref(multiqi))
     return cast(multiqi.pItf, POINTER(interface))  # type: ignore

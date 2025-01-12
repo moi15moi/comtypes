@@ -34,6 +34,7 @@ _StgCreateDocfile = _ole32.StgCreateDocfile
 _StgCreateDocfile.argtypes = [POINTER(WCHAR), DWORD, DWORD, POINTER(POINTER(IStorage))]
 _StgCreateDocfile.restype = HRESULT
 
+
 class Test_IStorage(unittest.TestCase):
     CREATE_DOC_FLAG = (
         STGM_DIRECT

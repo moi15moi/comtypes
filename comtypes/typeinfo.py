@@ -614,11 +614,21 @@ IRecordInfo._methods_ = [
 _oleaut32 = WinDLL("oleaut32")
 
 _GetRecordInfoFromTypeInfo = _oleaut32.GetRecordInfoFromTypeInfo
-_GetRecordInfoFromTypeInfo.argtypes = [POINTER(ITypeInfo), POINTER(POINTER(IRecordInfo))]
+_GetRecordInfoFromTypeInfo.argtypes = [
+    POINTER(ITypeInfo),
+    POINTER(POINTER(IRecordInfo)),
+]
 _GetRecordInfoFromTypeInfo.restype = HRESULT
 
 _GetRecordInfoFromGuids = _oleaut32.GetRecordInfoFromGuids
-_GetRecordInfoFromGuids.argtypes = [POINTER(GUID), ULONG, ULONG, LCID, POINTER(GUID), POINTER(POINTER(IRecordInfo))]
+_GetRecordInfoFromGuids.argtypes = [
+    POINTER(GUID),
+    ULONG,
+    ULONG,
+    LCID,
+    POINTER(GUID),
+    POINTER(POINTER(IRecordInfo)),
+]
 _GetRecordInfoFromGuids.restype = HRESULT
 
 _LoadRegTypeLib = _oleaut32.LoadRegTypeLib
@@ -683,9 +693,7 @@ def LoadRegTypeLib(
 ) -> ITypeLib:
     """Load a registered type library"""
     tlib = POINTER(ITypeLib)()
-    _LoadRegTypeLib(
-        byref(GUID(guid)), wMajorVerNum, wMinorVerNum, lcid, byref(tlib)
-    )
+    _LoadRegTypeLib(byref(GUID(guid)), wMajorVerNum, wMinorVerNum, lcid, byref(tlib))
     return tlib  # type: ignore
 
 
@@ -711,9 +719,7 @@ def UnRegisterTypeLib(
     syskind: int = (SYS_WIN64 if is_64_bit else SYS_WIN32),
 ) -> int:
     """Unregister a registered type library"""
-    return _UnRegisterTypeLib(
-        byref(GUID(libID)), wVerMajor, wVerMinor, lcid, syskind
-    )
+    return _UnRegisterTypeLib(byref(GUID(libID)), wVerMajor, wVerMinor, lcid, syskind)
 
 
 def RegisterTypeLib(
