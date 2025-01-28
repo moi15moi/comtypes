@@ -358,13 +358,13 @@ class Parser:
         #      I have encountered typlibs where only "QueryInterface", "AddRef"
         #      and "Release" are to be skipped.
         ignored_names = {
-                "QueryInterface",
-                "AddRef",
-                "Release",
-                "GetTypeInfoCount",
-                "GetTypeInfo",
-                "GetIDsOfNames",
-                "Invoke",
+            "QueryInterface",
+            "AddRef",
+            "Release",
+            "GetTypeInfoCount",
+            "GetTypeInfo",
+            "GetIDsOfNames",
+            "Invoke",
         }
 
         for i in range(ta.cFuncs):

@@ -64,8 +64,8 @@ class PackingError(Exception):
 
 # XXX These should be filtered out in gccxmlparser.
 dont_assert_size = {
-        "__si_class_type_info_pseudo",
-        "__class_type_info_pseudo",
+    "__si_class_type_info_pseudo",
+    "__class_type_info_pseudo",
 }
 
 

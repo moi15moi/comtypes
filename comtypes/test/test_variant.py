@@ -300,6 +300,7 @@ def check_perf(rep=20000):
     ptr_var = pointer(variable)
 
     import pickle
+
     try:
         previous = pickle.load(open("result.pickle", "rb"))
     except OSError:

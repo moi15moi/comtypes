@@ -283,9 +283,7 @@ class _compointer_base(c_void_p, metaclass=_compointer_meta):
         if not isinstance(other, _compointer_base):
             return False
         # get the value property of the c_void_p baseclass, this is the pointer value
-        return (
-            super().value == super(_compointer_base, other).value
-        )
+        return super().value == super(_compointer_base, other).value
 
     def __hash__(self):
         """Return the hash value of the pointer."""
