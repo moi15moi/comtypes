@@ -114,10 +114,7 @@ class VariantTestCase(unittest.TestCase):
         self.assertEqual(result, values)
 
     def test_pythonobjects(self):
-        if sys.version_info >= (3, 0):
-            objects = [None, 42, 3.14, True, False, "abc", "abc", 7]
-        else:
-            objects = [None, 42, 3.14, True, False, "abc", "abc", 7]
+        objects = [None, 42, 3.14, True, False, "abc", "abc", 7]
         for x in objects:
             v = VARIANT(x)
             self.assertEqual(x, v.value)
@@ -302,13 +299,10 @@ def check_perf(rep=20000):
     by_var = byref(variable)
     ptr_var = pointer(variable)
 
-    if sys.version_info >= (3, 0):
-        import pickle
-    else:
-        import cPickle as pickle
+    import pickle
     try:
         previous = pickle.load(open("result.pickle", "rb"))
-    except IOError:
+    except OSError:
         previous = {}
 
     results = {}

@@ -107,7 +107,7 @@ COMTYPES = {
 ################################################################
 
 
-class Parser(object):
+class Parser:
     tlib: typeinfo.ITypeLib
     items: Dict[str, Any]
 
@@ -357,8 +357,7 @@ class Parser(object):
         # CLF: 12/14/2012 Do this in a way that does not exclude other methods.
         #      I have encountered typlibs where only "QueryInterface", "AddRef"
         #      and "Release" are to be skipped.
-        ignored_names = set(
-            [
+        ignored_names = {
                 "QueryInterface",
                 "AddRef",
                 "Release",
@@ -366,8 +365,7 @@ class Parser(object):
                 "GetTypeInfo",
                 "GetIDsOfNames",
                 "Invoke",
-            ]
-        )
+        }
 
         for i in range(ta.cFuncs):
             fd = tinfo.GetFuncDesc(i)

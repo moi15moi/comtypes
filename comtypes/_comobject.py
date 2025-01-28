@@ -140,7 +140,7 @@ _PostQuitMessage.argtypes = [INT]
 _PostQuitMessage.restype = None
 
 
-class LocalServer(object):
+class LocalServer:
     _queue: Optional[queue.Queue] = None
 
     def run(self, classobjects: Sequence["hints.localserver.ClassFactory"]) -> None:
@@ -182,7 +182,7 @@ class LocalServer(object):
                 _PostQuitMessage(0)
 
 
-class InprocServer(object):
+class InprocServer:
     def __init__(self) -> None:
         self.locks = c_long(0)
 
@@ -203,7 +203,7 @@ class InprocServer(object):
 _T_IUnknown = TypeVar("_T_IUnknown", bound=IUnknown)
 
 
-class COMObject(object):
+class COMObject:
     _com_interfaces_: ClassVar[List[Type[IUnknown]]]
     _outgoing_interfaces_: ClassVar[List[Type["hints.IDispatch"]]]
     _instances_: ClassVar[Dict["COMObject", None]] = {}
@@ -214,7 +214,7 @@ class COMObject(object):
     _dispimpl_: Dict[Tuple[int, int], Callable[..., Any]]
 
     def __new__(cls, *args, **kw):
-        self = super(COMObject, cls).__new__(cls)
+        self = super().__new__(cls)
         if isinstance(self, c_void_p):
             # We build the VTables only for direct instances of
             # CoClass, not for POINTERs to CoClass.
@@ -410,7 +410,7 @@ class COMObject(object):
         try:
             self.__typelib
         except AttributeError:
-            raise WindowsError(hresult.E_NOTIMPL)
+            raise OSError(hresult.E_NOTIMPL)
         return self.__typelib.GetTypeInfoOfGuid(self._reg_clsid_)
 
     ################################################################
@@ -419,7 +419,7 @@ class COMObject(object):
     def IProvideClassInfo2_GetGUID(self, dwGuidKind: int) -> GUID:
         # GUIDKIND_DEFAULT_SOURCE_DISP_IID = 1
         if dwGuidKind != 1:
-            raise WindowsError(hresult.E_INVALIDARG)
+            raise OSError(hresult.E_INVALIDARG)
         return self._outgoing_interfaces_[0]._iid_
 
     ################################################################

@@ -70,7 +70,7 @@ def enabled_disabled(disabled_error):
             from comtypes import npsupport
 
             if npsupport.enabled:
-                raise EnvironmentError(
+                raise OSError(
                     "Expected numpy interop not to be enabled but it is."
                 )
             with self.assertRaises(disabled_error):

@@ -18,7 +18,7 @@ class ConnectionPointImpl(COMObject):
     _com_interfaces_ = [IConnectionPoint]
 
     def __init__(self, sink_interface, sink_typeinfo):
-        super(ConnectionPointImpl, self).__init__()
+        super().__init__()
         self._connections = {}
         self._cookie = 0
         self._sink_interface = sink_interface
@@ -118,7 +118,7 @@ class ConnectionPointImpl(COMObject):
         return results
 
 
-class ConnectableObjectMixin(object):
+class ConnectableObjectMixin:
     """Mixin which implements IConnectionPointContainer.
 
     Call Fire_Event(interface, methodname, *args, **kw) to fire an
@@ -127,7 +127,7 @@ class ConnectableObjectMixin(object):
     """
 
     def __init__(self):
-        super(ConnectableObjectMixin, self).__init__()
+        super().__init__()
         self.__connections = {}
 
         tlib = LoadRegTypeLib(*self._reg_typelib_)

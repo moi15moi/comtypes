@@ -52,7 +52,7 @@ class ClassFactory(comtypes.COMObject):
     regcls: int = REGCLS_MULTIPLEUSE
 
     def __init__(self, cls: Type[comtypes.COMObject], *args, **kw) -> None:
-        super(ClassFactory, self).__init__()
+        super().__init__()
         self._cls = cls
         self._register_class()
         self._args = args

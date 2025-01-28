@@ -23,7 +23,7 @@ class VARIANTEnumerator(COMObject):
             items  # keep, so that we can restore our iterator (in Reset, and Clone).
         )
         self.seq = iter(self.items)
-        super(VARIANTEnumerator, self).__init__()
+        super().__init__()
 
     def Next(self, this, celt, rgVar, pCeltFetched):
         if not rgVar:
@@ -76,7 +76,7 @@ class COMCollection(COMObject):
     def __init__(self, itemtype, collection):
         self.collection = collection
         self.itemtype = itemtype
-        super(COMCollection, self).__init__()
+        super().__init__()
 
     def _get_Item(self, this, pathname, pitem):
         if not pitem:

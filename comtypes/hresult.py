@@ -60,7 +60,7 @@ def MAKE_HRESULT(sev, fac, code):
     # A hresult is SIGNED in comtypes
     from ctypes import c_long
 
-    return c_long((sev << 31 | fac << 16 | code)).value
+    return c_long(sev << 31 | fac << 16 | code).value
 
 
 SEVERITY_ERROR = 1

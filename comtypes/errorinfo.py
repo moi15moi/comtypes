@@ -95,7 +95,7 @@ def ReportError(
             clsid = GUID(clsid)
         try:
             progid = clsid.as_progid()
-        except WindowsError:
+        except OSError:
             pass
         else:
             ei.SetSource(

@@ -32,7 +32,7 @@ def _shutdown(
     else:
         try:
             func()
-        except WindowsError:
+        except OSError:
             pass
     # Set the flag which means that calling obj.Release() is no longer
     # needed.
@@ -284,13 +284,13 @@ class _compointer_base(c_void_p, metaclass=_compointer_meta):
             return False
         # get the value property of the c_void_p baseclass, this is the pointer value
         return (
-            super(_compointer_base, self).value == super(_compointer_base, other).value
+            super().value == super(_compointer_base, other).value
         )
 
     def __hash__(self):
         """Return the hash value of the pointer."""
         # hash the pointer values
-        return hash(super(_compointer_base, self).value)
+        return hash(super().value)
 
     # redefine the .value property; return the object itself.
     def __get_value(self):
@@ -299,7 +299,7 @@ class _compointer_base(c_void_p, metaclass=_compointer_meta):
     value = property(__get_value, doc="""Return self.""")
 
     def __repr__(self):
-        ptr = super(_compointer_base, self).value
+        ptr = super().value
         return f"<{self.__class__.__name__} ptr=0x{ptr or 0:x} at {id(self):x}>"
 
     # This fixes the problem when there are multiple python interface types

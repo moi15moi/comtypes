@@ -59,7 +59,7 @@ class test(Command):
         for name in self.tests:
             package = __import__(name, globals(), locals(), ['*'])
             sys.stdout.write(
-                "Testing package %s %s\n" % (name, (sys.version, sys.platform, os.name))
+                "Testing package {} {}\n".format(name, (sys.version, sys.platform, os.name))
             )
             package_failure = comtypes.test.run_tests(
                 package, "test_*.py", self.verbose, self.refcounts
