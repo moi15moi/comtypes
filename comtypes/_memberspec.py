@@ -126,7 +126,7 @@ class helpstring(str):
     "Specifies the helpstring for a COM method or property."
 
 
-class defaultvalue(object):
+class defaultvalue:
     "Specifies the default value for parameters marked optional."
 
     def __init__(self, value):
@@ -313,7 +313,7 @@ def _fix_inout_args(
     return call_with_inout
 
 
-class PropertyMapping(object):
+class PropertyMapping:
     def __init__(self):
         self._data: Dict[Tuple[str, _DocType, int], List[_PropFunc]] = {}
 
@@ -353,7 +353,7 @@ class PropertyMapping(object):
             yield (name, doc, nargs, fget, fset)
 
 
-class PropertyGenerator(object):
+class PropertyGenerator:
     def __init__(self, cls_name: str) -> None:
         self._mapping = PropertyMapping()
         self._cls_name = cls_name
@@ -431,7 +431,7 @@ class DispPropertyGenerator(PropertyGenerator):
         return m.name, None, len(m.argspec) - 1
 
 
-class ComMemberGenerator(object):
+class ComMemberGenerator:
     def __init__(self, cls_name: str, vtbl_offset: int, iid: "comtypes.GUID") -> None:
         self._vtbl_offset = vtbl_offset
         self._iid = iid
@@ -476,7 +476,7 @@ class ComMemberGenerator(object):
         return iter(self._props)
 
 
-class DispMemberGenerator(object):
+class DispMemberGenerator:
     def __init__(self, cls_name: str) -> None:
         self._props = DispPropertyGenerator(cls_name)
         # sequence of (name: str, func_or_prop: Callable | property, is_prop: bool)
@@ -572,7 +572,7 @@ class DispMemberGenerator(object):
 # Should they be implemented in C for speed?
 
 
-class bound_named_property(object):
+class bound_named_property:
     def __init__(self, name, fget, fset, instance):
         self.name = name
         self.instance = instance
@@ -613,7 +613,7 @@ class bound_named_property(object):
         raise TypeError(msg)
 
 
-class named_property(object):
+class named_property:
     def __init__(self, name, fget=None, fset=None, doc=None):
         self.name = name
         self.fget = fget

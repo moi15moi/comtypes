@@ -81,7 +81,7 @@ def find_package_modules(package, mask):
         path = package.__path__[0]
         for fnm in os.listdir(path):
             if fnmatch.fnmatchcase(fnm, mask):
-                yield "%s.%s" % (package.__name__, os.path.splitext(fnm)[0])
+                yield "{}.{}".format(package.__name__, os.path.splitext(fnm)[0])
 
 
 def get_tests(package, mask, verbosity):
@@ -134,7 +134,7 @@ def test_with_refcounts(runner, verbosity, testcase):
         ctypes._win_functype_cache = wfc.copy()
         gc.collect()
 
-    test = unittest.makeSuite(testcase)
+    test = unittest.defaultTestLoader.loadTestsFromTestCase(testcase)
     for i in range(5):
         rc = sys.gettotalrefcount()
         runner.run(test)
@@ -204,7 +204,7 @@ def run_tests(package, mask, verbosity, search_leaks):
     skipped, testcases = get_tests(package, mask, verbosity)
     runner = TestRunner(verbosity=verbosity)
 
-    suites = [unittest.makeSuite(o) for o in testcases]
+    suites = [unittest.defaultTestLoader.loadTestsFromTestCase(o) for o in testcases]
     suite = unittest.TestSuite(suites)
     result = runner.run(suite, skipped)
 

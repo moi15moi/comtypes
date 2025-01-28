@@ -9,7 +9,7 @@ from comtypes.typeinfo import ITypeLib, TLIBATTR
 from comtypes.tools.typedesc_base import *
 
 
-class TypeLib(object):
+class TypeLib:
     def __init__(
         self, name: str, guid: str, major: int, minor: int, doc: Optional[str] = None
     ) -> None:
@@ -23,7 +23,7 @@ class TypeLib(object):
         return f"<TypeLib({self.name}: {self.guid}, {self.major}, {self.minor})>"
 
 
-class Constant(object):
+class Constant:
     def __init__(
         self,
         name: str,
@@ -37,7 +37,7 @@ class Constant(object):
         self.doc = doc
 
 
-class External(object):
+class External:
     def __init__(
         self,
         tlib: ITypeLib,
@@ -60,13 +60,13 @@ class External(object):
         return self
 
 
-class SAFEARRAYType(object):
+class SAFEARRAYType:
     def __init__(self, typ: Any) -> None:
         self.typ = typ
         self.align = self.size = ctypes.sizeof(ctypes.c_void_p) * 8
 
 
-class ComMethod(object):
+class ComMethod:
     # custom COM method, parsed from typelib
     def __init__(
         self,
@@ -91,7 +91,7 @@ class ComMethod(object):
         self.arguments.append((typ, name, idlflags, default))
 
 
-class DispMethod(object):
+class DispMethod:
     # dispatchable COM method, parsed from typelib
     def __init__(
         self,
@@ -116,7 +116,7 @@ class DispMethod(object):
         self.arguments.append((typ, name, idlflags, default))
 
 
-class DispProperty(object):
+class DispProperty:
     # dispatchable COM property, parsed from typelib
     def __init__(
         self, dispid: int, name: str, typ: Any, idlflags: List[str], doc: Optional[Any]
@@ -128,17 +128,17 @@ class DispProperty(object):
         self.doc = doc
 
 
-class DispInterfaceHead(object):
+class DispInterfaceHead:
     def __init__(self, itf: "DispInterface") -> None:
         self.itf = itf
 
 
-class DispInterfaceBody(object):
+class DispInterfaceBody:
     def __init__(self, itf: "DispInterface") -> None:
         self.itf = itf
 
 
-class DispInterface(object):
+class DispInterface:
     def __init__(
         self,
         name: str,
@@ -166,17 +166,17 @@ class DispInterface(object):
         return self.itf_head
 
 
-class ComInterfaceHead(object):
+class ComInterfaceHead:
     def __init__(self, itf: "ComInterface") -> None:
         self.itf = itf
 
 
-class ComInterfaceBody(object):
+class ComInterfaceBody:
     def __init__(self, itf: "ComInterface") -> None:
         self.itf = itf
 
 
-class ComInterface(object):
+class ComInterface:
     def __init__(
         self,
         name: str,
@@ -208,7 +208,7 @@ _ImplTypeFlags = int
 _Interface = _UnionT[ComInterface, DispInterface]
 
 
-class CoClass(object):
+class CoClass:
     def __init__(
         self,
         name: str,

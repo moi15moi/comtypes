@@ -57,7 +57,7 @@ _CloseHandle.argtypes = [HANDLE]
 _CloseHandle.restype = BOOL
 
 
-class _AdviseConnection(object):
+class _AdviseConnection:
     def __init__(self, source, interface, receiver):
         self.cp = None
         self.cookie = None
@@ -83,7 +83,7 @@ class _AdviseConnection(object):
         try:
             if self.cookie is not None:
                 self.cp.Unadvise(self.cookie)
-        except (comtypes.COMError, WindowsError):
+        except (comtypes.COMError, OSError):
             # Are we sure we want to ignore errors here?
             pass
 
@@ -187,7 +187,7 @@ class _SinkMethodFinder(_MethodFinder):
     """
 
     def __init__(self, inst, sink):
-        super(_SinkMethodFinder, self).__init__(inst)
+        super().__init__(inst)
         self.sink = sink
 
     def find_method(self, fq_name, mthname):
@@ -207,7 +207,7 @@ class _SinkMethodFinder(_MethodFinder):
 
     def _find_method(self, fq_name, mthname):
         try:
-            return super(_SinkMethodFinder, self).find_method(fq_name, mthname)
+            return super().find_method(fq_name, mthname)
         except AttributeError:
             try:
                 return getattr(self.sink, fq_name)
@@ -261,7 +261,7 @@ def GetEvents(source, sink, interface=None):
     return _AdviseConnection(source, interface, rcv)
 
 
-class EventDumper(object):
+class EventDumper:
     """Universal sink for COM events."""
 
     def __getattr__(self, name):
@@ -342,7 +342,7 @@ def PumpEvents(timeout):
                 handles,
                 ctypes.byref(ctypes.c_ulong()),
             )
-        except WindowsError as details:
+        except OSError as details:
             if details.winerror != RPC_S_CALLPENDING:  # timeout expired
                 raise
         else:

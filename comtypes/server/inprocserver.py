@@ -18,7 +18,7 @@ class ClassFactory(COMObject):
     _com_interfaces_ = [IClassFactory]
 
     def __init__(self, cls: Type[COMObject]) -> None:
-        super(ClassFactory, self).__init__()
+        super().__init__()
         self._cls = cls
 
     def IClassFactory_CreateInstance(
@@ -87,7 +87,7 @@ def _setup_logging(clsid: GUID) -> None:
 
     try:
         hkey = winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, r"CLSID\%s\Logging" % clsid)
-    except WindowsError:
+    except OSError:
         return
     from comtypes.logutil import NTDebugHandler
 

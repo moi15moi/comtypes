@@ -22,7 +22,7 @@ except ImportError:
 def setUpModule():
     try:
         register(comtypes.test.TestComServer.TestComServer)
-    except WindowsError as e:
+    except OSError as e:
         if e.winerror != 5:  # [Error 5] Access is denied
             raise e
         raise unittest.SkipTest(
@@ -35,7 +35,7 @@ def tearDownModule():
     unregister(comtypes.test.TestComServer.TestComServer)
 
 
-class BaseServerTest(object):
+class BaseServerTest:
     def create_object(self) -> Any: ...
 
     def _find_memleak(self, func):

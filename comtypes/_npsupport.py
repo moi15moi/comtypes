@@ -124,7 +124,7 @@ class Interop:
             if hasattr(value, "__array_interface__"):
                 raise ValueError(
                     (
-                        "Argument {0} appears to be a numpy.ndarray, but "
+                        "Argument {} appears to be a numpy.ndarray, but "
                         "comtypes numpy support has not been enabled. Please "
                         "try calling comtypes.npsupport.enable_numpy_interop()"
                         " before passing ndarrays as parameters."

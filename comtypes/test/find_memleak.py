@@ -39,7 +39,7 @@ try:
         POINTER(PROCESS_MEMORY_COUNTERS),
         DWORD,
     )
-except WindowsError:
+except OSError:
     # cannot search for memory leaks on Windows CE
     def find_memleak(func, loops=None):
         return 0
