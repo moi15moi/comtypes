@@ -123,12 +123,6 @@ class TestLocalServer(BaseServerTest, unittest.TestCase):
             "TestComServerLib.TestComServer", clsctx=comtypes.CLSCTX_LOCAL_SERVER
         )
 
-    @unittest.skip("This fails. Why?")
-    def test_get_typeinfo(self):
-        # Calling `GetTypeInfo` occurs;
-        # OSError: exception: access violation reading 0x0000000000000000
-        pass
-
 
 @unittest.skipIf(IMPORT_PYWIN32_FAILED, "This depends on 'pywin32'.")
 class TestInproc_win32com(BaseServerTest, unittest.TestCase):
