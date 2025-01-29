@@ -777,7 +777,7 @@ DISPID_COLLECT = -8
 class IDispatch(IUnknown):
     _disp_methods_: ClassVar[List["_DispMemberSpec"]]
 
-    _iid_ = GUID("{00020400-0000-0000-C000-000000000046}")
+    _iid_ = GUID("{00020400-0000-0000-c000-000000000046}")
     _methods_ = [
         COMMETHOD([], HRESULT, "GetTypeInfoCount", (["out"], POINTER(UINT))),
         COMMETHOD(
@@ -820,7 +820,8 @@ class IDispatch(IUnknown):
         """Return type information.  Index 0 specifies typeinfo for IDispatch"""
         import comtypes.typeinfo
 
-        result = self._GetTypeInfo(index, lcid)  # type: ignore
+        result = POINTER(IUnknown)()
+        self.__com_GetTypeInfo(index, lcid, byref(result))  # type: ignore
         return result.QueryInterface(comtypes.typeinfo.ITypeInfo)
 
     def GetIDsOfNames(self, *names: str, **kw: Any) -> List[int]:
