@@ -105,7 +105,7 @@ def _delete_key(hkey: int, subkey: str, *, force: bool) -> None:
         else:
             _debug("DeleteKey %s\\%s", _explain(hkey), subkey)
             winreg.DeleteKey(hkey, subkey)
-    except WindowsError as detail:
+    except OSError as detail:
         if get_winerror(detail) != 2:
             raise
 
@@ -113,7 +113,7 @@ def _delete_key(hkey: int, subkey: str, *, force: bool) -> None:
 _Entry = Tuple[int, str, str, str]
 
 
-class Registrar(object):
+class Registrar:
     """COM class registration.
 
     The COM class can override what this does by implementing
@@ -139,10 +139,10 @@ class Registrar(object):
         """Delete logging entries from the registry."""
         clsid = cls._reg_clsid_
         try:
-            _debug('DeleteKey( %s\\CLSID\\%s\\Logging"' % (_explain(HKCR), clsid))
+            _debug('DeleteKey( {}\\CLSID\\{}\\Logging"'.format(_explain(HKCR), clsid))
             hkey = winreg.OpenKey(HKCR, rf"CLSID\{clsid}")
             winreg.DeleteKey(hkey, "Logging")
-        except WindowsError as detail:
+        except OSError as detail:
             if get_winerror(detail) != 2:
                 raise
 
@@ -151,7 +151,7 @@ class Registrar(object):
         # handlers
         # format
         clsid = cls._reg_clsid_
-        _debug('CreateKey( %s\\CLSID\\%s\\Logging"' % (_explain(HKCR), clsid))
+        _debug('CreateKey( {}\\CLSID\\{}\\Logging"'.format(_explain(HKCR), clsid))
         hkey = winreg.CreateKey(HKCR, rf"CLSID\{clsid}\Logging")
         for item in levels:
             name, value = item.split("=")
@@ -166,7 +166,7 @@ class Registrar(object):
             _debug("DeleteValue(format)")
             try:
                 winreg.DeleteValue(hkey, "format")
-            except WindowsError as detail:
+            except OSError as detail:
                 if get_winerror(detail) != 2:
                     raise
 
@@ -231,7 +231,7 @@ class Registrar(object):
             try:
                 _debug("UnRegisterTypeLib(%s, %s, %s)", *tlib)
                 UnRegisterTypeLib(*tlib)
-            except WindowsError as detail:
+            except OSError as detail:
                 if not get_winerror(detail) in (
                     TYPE_E_REGISTRYACCESS,
                     TYPE_E_CANTLOADLIBRARY,

@@ -13,7 +13,7 @@ from comtypes.automation import DISPID_NEWENUM
 from comtypes.typeinfo import FUNC_PUREVIRTUAL, FUNC_DISPATCH
 
 
-class FuncDesc(object):
+class FuncDesc:
     """Stores important FUNCDESC properties by copying them from a
     real FUNCDESC instance.
     """
@@ -29,7 +29,7 @@ class FuncDesc(object):
 _all_slice = slice(None, None, None)
 
 
-class NamedProperty(object):
+class NamedProperty:
     def __init__(self, disp, get, put, putref):
         self.get = get
         self.put = put
@@ -84,7 +84,7 @@ class NamedProperty(object):
 #    objects do not (could be added, would probably be expensive)
 
 
-class Dispatch(object):
+class Dispatch:
     """Dynamic dispatch for an object the exposes type information.
     Binding at runtime is done via ITypeComp::Bind calls.
     """

@@ -32,14 +32,14 @@ class TestPipInstall(unittest.TestCase):
         subprocess.check_call([self.pip_exe, 'install', self.target_package])
 
     def test_no_cache_dir_custom_location(self):
-        """Test that 'pip install comtypes-x.y.z.zip --no-cache-dir --target="...\custom location"' works"""
+        r"""Test that 'pip install comtypes-x.y.z.zip --no-cache-dir --target="...\custom location"' works"""
         custom_dir = os.path.join(os.getcwd(), 'custom location')
         if os.path.exists(custom_dir):
             shutil.rmtree(custom_dir)
         os.makedirs(custom_dir)
 
         # this test catches issue #158
-        subprocess.check_call('{0} install {1} --no-cache-dir --target="{2}"' \
+        subprocess.check_call('{} install {} --no-cache-dir --target="{}"' \
             ''.format(self.pip_exe, self.target_package, custom_dir))
 
 

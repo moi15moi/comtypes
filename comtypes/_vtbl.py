@@ -96,7 +96,7 @@ def catch_errors(
         except comtypes.ReturnHRESULT as err:
             (hr, text) = err.args
             return ReportError(text, iid=interface._iid_, clsid=clsid, hresult=hr)
-        except (COMError, WindowsError) as details:
+        except (COMError, OSError) as details:
             _error(
                 "Exception in %s.%s implementation:",
                 interface.__name__,
@@ -204,7 +204,7 @@ def hack(
                 msg = f"{source}: {descr}"
             hr = HRESULT_FROM_WIN32(hr)
             return ReportError(msg, iid=interface._iid_, clsid=clsid, hresult=hr)
-        except WindowsError as details:
+        except OSError as details:
             _error(
                 "Exception in %s.%s implementation:",
                 interface.__name__,
@@ -231,11 +231,11 @@ def hack(
     return call_without_this
 
 
-class _MethodFinder(object):
+class _MethodFinder:
     def __init__(self, inst: "hints.COMObject") -> None:
         self.inst = inst
         # map lower case names to names with correct spelling.
-        self.names = dict([(n.lower(), n) for n in dir(inst)])
+        self.names = {n.lower(): n for n in dir(inst)}
 
     def get_impl(
         self,

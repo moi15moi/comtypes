@@ -1,5 +1,3 @@
-# -*- coding: latin-1 -*-
-
 import datetime
 import sys
 import unittest
@@ -26,7 +24,7 @@ except (ImportError, OSError):
     IMPORT_FAILED = True
 
 
-class BaseBindTest(object):
+class BaseBindTest:
     # `dynamic = True/False` must be defined in subclasses!
     dynamic: ClassVar[bool]
 
@@ -122,7 +120,7 @@ class BaseBindTest(object):
         sh.Range[sh.Cells.Item[4, 1], sh.Cells.Item[6, 3]].Select()
 
 
-PY_VER = "Python {0}.{1}.{2}".format(*sys.version_info[:3])
+PY_VER = "Python {}.{}.{}".format(*sys.version_info[:3])
 
 
 @unittest.skipIf(IMPORT_FAILED, "This depends on Excel.")

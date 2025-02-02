@@ -7,7 +7,7 @@ from typing import Iterator, Mapping, Sequence
 import warnings
 
 
-class ImportedNamespaces(object):
+class ImportedNamespaces:
     def __init__(self) -> None:
         self.data: Dict[str, Optional[str]] = {}
 
@@ -124,7 +124,7 @@ class ImportedNamespaces(object):
         return "\n".join(lines)
 
 
-class DeclaredNamespaces(object):
+class DeclaredNamespaces:
     def __init__(self) -> None:
         self.data: Dict[Tuple[str, str], Optional[str]] = {}
 
@@ -160,7 +160,7 @@ class DeclaredNamespaces(object):
         return "\n".join(lines)
 
 
-class EnumerationNamespaces(object):
+class EnumerationNamespaces:
     def __init__(self) -> None:
         self.data: Dict[str, List[Tuple[str, int]]] = {}
 

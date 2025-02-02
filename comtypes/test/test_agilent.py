@@ -11,7 +11,7 @@ from ctypes import c_double, POINTER
 
 try:
     GUID.from_progid("Agilent546XX.Agilent546XX")
-except WindowsError:
+except OSError:
     pass
 
 else:
