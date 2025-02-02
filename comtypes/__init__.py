@@ -121,15 +121,15 @@ EOAC_NONE = 0
 
 ################################################################
 # Initialization and shutdown
-_ole32 = OleDLL("ole32")
+_ole32_123 = OleDLL("ole32")
 
-_CoInitializeEx = _ole32.CoInitializeEx
+_CoInitializeEx = _ole32_123.CoInitializeEx
 _CoInitializeEx.argtypes = [LPVOID, DWORD]
 _CoInitializeEx.restype = HRESULT
 
-_ole32_nohresult = WinDLL("ole32")  # use this for functions that don't return a HRESULT
+_ole32_nohresult_123 = WinDLL("ole32")  # use this for functions that don't return a HRESULT
 
-_CoUninitialize = _ole32_nohresult.CoUninitialize
+_CoUninitialize = _ole32_nohresult_123.CoUninitialize
 _CoUninitialize.argtypes = []
 _CoUninitialize.restype = None
 
