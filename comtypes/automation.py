@@ -6,7 +6,7 @@ from _ctypes import COMError, CopyComPointer
 from ctypes import *
 from ctypes import Array as _CArrayType
 from ctypes import _Pointer
-from ctypes.wintypes import DWORD, LONG, UINT, VARIANT_BOOL, WCHAR, WORD
+from ctypes.wintypes import DWORD, LONG, OLESTR, UINT, USHORT, VARIANT_BOOL, WCHAR, WORD
 from typing import TYPE_CHECKING, Any, ClassVar, Dict, List, Optional, Type
 
 import comtypes
@@ -577,13 +577,13 @@ VARIANTARG = VARIANT
 _oleaut32_nohresult = WinDLL("oleaut32")
 
 _SysAllocStringLen = _oleaut32_nohresult.SysAllocStringLen
-_SysAllocStringLen.argtypes = c_wchar_p, c_uint
-_SysAllocStringLen.restype = c_void_p
+_SysAllocStringLen.argtypes = OLESTR, UINT
+_SysAllocStringLen.restype = BSTR
 
 _oleaut32 = OleDLL("oleaut32")
 
 _VariantChangeType = _oleaut32.VariantChangeType
-_VariantChangeType.argtypes = (POINTER(VARIANT), POINTER(VARIANT), c_ushort, VARTYPE)
+_VariantChangeType.argtypes = (POINTER(VARIANT), POINTER(VARIANT), USHORT, VARTYPE)
 _VariantChangeType.restype = HRESULT
 
 _VariantClear = _oleaut32.VariantClear

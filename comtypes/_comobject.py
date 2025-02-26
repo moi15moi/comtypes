@@ -12,7 +12,7 @@ from ctypes import (
     c_wchar_p,
     pointer,
 )
-from ctypes.wintypes import INT, LONG, LPVOID, UINT, ULONG, WORD
+from ctypes.wintypes import INT, LONG, LPOLESTR, LPVOID, UINT, ULONG, WORD
 from typing import (
     TYPE_CHECKING,
     Any,
@@ -85,17 +85,17 @@ except AttributeError:
         return refcnt
 
 else:
-    _InterlockedIncrement.argtypes = [POINTER(c_long)]
-    _InterlockedDecrement.argtypes = [POINTER(c_long)]
-    _InterlockedIncrement.restype = c_long
-    _InterlockedDecrement.restype = c_long
+    _InterlockedIncrement.argtypes = [POINTER(LONG)]
+    _InterlockedDecrement.argtypes = [POINTER(LONG)]
+    _InterlockedIncrement.restype = LONG
+    _InterlockedDecrement.restype = LONG
 
 _oleaut32 = WinDLL("oleaut32")
 
 _DispGetIDsOfNames = _oleaut32.DispGetIDsOfNames
 _DispGetIDsOfNames.argtypes = [
     POINTER(ITypeInfo),
-    POINTER(c_wchar_p),
+    POINTER(LPOLESTR),
     UINT,
     POINTER(DISPID),
 ]
