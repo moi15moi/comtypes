@@ -578,7 +578,7 @@ _oleaut32_nohresult = WinDLL("oleaut32")
 
 _SysAllocStringLen = _oleaut32_nohresult.SysAllocStringLen
 _SysAllocStringLen.argtypes = OLESTR, UINT
-_SysAllocStringLen.restype = BSTR
+_SysAllocStringLen.restype = c_void_p
 
 _oleaut32 = OleDLL("oleaut32")
 
