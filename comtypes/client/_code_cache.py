@@ -11,7 +11,7 @@ import os
 import sys
 import tempfile
 import types
-from ctypes.wintypes import BOOL, HWND, LPWSTR, MAX_PATH
+from ctypes.wintypes import BOOL, HWND, INT, LPWSTR, MAX_PATH
 
 from comtypes import typeinfo
 
@@ -88,7 +88,7 @@ def _find_gen_dir():
 
 _shell32 = ctypes.OleDLL("shell32.dll")
 SHGetSpecialFolderPath = _shell32.SHGetSpecialFolderPathW
-SHGetSpecialFolderPath.argtypes = [HWND, LPWSTR, ctypes.c_int, BOOL]
+SHGetSpecialFolderPath.argtypes = [HWND, LPWSTR, INT, BOOL]
 SHGetSpecialFolderPath.restype = BOOL
 
 CSIDL_APPDATA = 26
