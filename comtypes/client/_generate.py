@@ -163,7 +163,7 @@ def _load_tlib(obj: Any) -> typeinfo.ITypeLib:
 
         clsid = str(obj)
         # lookup associated typelib in registry
-        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\TypeLib", access=winreg.KEY_READ | winreg.KEY_WOW64_64KEY) as key:
+        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\TypeLib", access=winreg.KEY_READ | winreg.KEY_WOW64_64KEY | winreg.KEY_WOW64_32KEY) as key:
             libid = winreg.EnumValue(key, 0)[1]
         with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\Version") as key:
             ver = winreg.EnumValue(key, 0)[1].split(".")
