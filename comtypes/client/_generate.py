@@ -1,4 +1,5 @@
 import ctypes
+from ctypes import POINTER, WinError, byref, wintypes
 import importlib
 import inspect
 import logging
@@ -135,9 +136,32 @@ def _load_tlib(obj: Any) -> typeinfo.ITypeLib:
         return typeinfo.LoadTypeLibEx(obj)
     # obj is a tlib GUID contain a clsid
     elif isinstance(obj, GUID):
+        kernel32 = ctypes.WinDLL("kernel32")
+
+        # https://learn.microsoft.com/en-us/windows/win32/api/wow64apiset/nf-wow64apiset-iswow64process2
+        IsWow64Process2 = kernel32.IsWow64Process2
+        IsWow64Process2.argtypes = [wintypes.HANDLE, POINTER(wintypes.USHORT), POINTER(wintypes.USHORT)]
+        IsWow64Process2.restype = wintypes.BOOL
+
+        # https://learn.microsoft.com/en-us/windows/win32/api/processthreadsapi/nf-processthreadsapi-getcurrentprocess
+        GetCurrentProcess = kernel32.GetCurrentProcess
+        GetCurrentProcess.argtypes = []
+        GetCurrentProcess.restype = wintypes.HANDLE
+
+        process_handle = GetCurrentProcess()
+
+        process_machine = wintypes.USHORT()
+        if not IsWow64Process2(process_handle, byref(process_machine), None):
+            raise WinError()
+
+        IMAGE_FILE_MACHINE_UNKNOWN = 0
+        is_wow64 = process_machine.value != IMAGE_FILE_MACHINE_UNKNOWN 
+
+        print("Running under WOW64?" , is_wow64)
+
         clsid = str(obj)
         # lookup associated typelib in registry
-        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\TypeLib") as key:
+        with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\TypeLib", access=winreg.KEY_READ | winreg.KEY_WOW64_64KEY | winreg.KEY_WOW64_32KEY) as key:
             libid = winreg.EnumValue(key, 0)[1]
         with winreg.OpenKey(winreg.HKEY_CLASSES_ROOT, rf"CLSID\{clsid}\Version") as key:
             ver = winreg.EnumValue(key, 0)[1].split(".")
