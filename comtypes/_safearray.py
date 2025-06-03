@@ -57,11 +57,11 @@ SafeArrayCreateVectorEx.argtypes = [VARTYPE, LONG, DWORD, PVOID]
 
 SafeArrayCreateEx = _oleaut32.SafeArrayCreateEx
 SafeArrayCreateEx.restype = POINTER(SAFEARRAY)
-SafeArrayCreateEx.argtypes = [VARTYPE, c_uint, POINTER(SAFEARRAYBOUND), PVOID]
+SafeArrayCreateEx.argtypes = [VARTYPE, UINT, POINTER(SAFEARRAYBOUND), PVOID]
 
 SafeArrayCreate = _oleaut32.SafeArrayCreate
 SafeArrayCreate.restype = POINTER(SAFEARRAY)
-SafeArrayCreate.argtypes = [VARTYPE, c_uint, POINTER(SAFEARRAYBOUND)]
+SafeArrayCreate.argtypes = [VARTYPE, UINT, POINTER(SAFEARRAYBOUND)]
 
 SafeArrayUnaccessData = _oleaut32.SafeArrayUnaccessData
 SafeArrayUnaccessData.restype = HRESULT
