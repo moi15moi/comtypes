@@ -233,7 +233,7 @@ _CoGetClassObject.argtypes = [
     DWORD,
     POINTER(COSERVERINFO),
     POINTER(GUID),
-    POINTER(c_void_p),
+    POINTER(LPVOID),
 ]
 _CoGetClassObject.restype = HRESULT
 
