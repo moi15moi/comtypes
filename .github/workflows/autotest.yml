@@ -23,7 +23,7 @@ jobs:
       - name: Set up MSVC
         uses: ilammy/msvc-dev-cmd@v1
         with:
-          arch: ${{ matrix.architecture == 'x86' && 'matrix.architecture' || '' }}  
+          arch: ${{ matrix.architecture }}  
       - name: Build and register the OutProc COM server
         run: |
           cd source/CppTestSrv
