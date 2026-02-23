@@ -1,3 +1,4 @@
+import platform
 import unittest as ut
 from ctypes import HRESULT, POINTER, OleDLL, byref
 from ctypes.wintypes import DWORD, HANDLE, LPWSTR
@@ -23,8 +24,12 @@ _SHGetKnownFolderPath.argtypes = [
 ]
 _SHGetKnownFolderPath.restype = HRESULT
 
+IS_ARM = (
+    platform.machine().lower() in ("arm64", "aarch64")
+)
 
 class Test(ut.TestCase):
+    @ut.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_Realloc(self):
         malloc = CoGetMalloc()
         size1 = 4
@@ -44,6 +49,7 @@ class Test(ut.TestCase):
         malloc.HeapMinimize()
         del ptr3
 
+    @ut.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_SHGetKnownFolderPath(self):
         ptr = LPWSTR()
         hr = _SHGetKnownFolderPath(

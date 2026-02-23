@@ -1,5 +1,6 @@
 import contextlib
 import os
+import platform
 import sys
 import unittest as ut
 from ctypes import POINTER, byref
@@ -12,6 +13,9 @@ comtypes.client.GetModule("scrrun.dll")
 comtypes.client.GetModule("wbemdisp.tlb")
 from comtypes.gen import Scripting, WbemScripting
 
+IS_ARM = (
+    platform.machine().lower() in ("arm64", "aarch64")
+)
 
 class Test_GetModule(ut.TestCase):
     def test_tlib_string(self):
@@ -49,6 +53,7 @@ class Test_GetModule(ut.TestCase):
         mod = comtypes.client.GetModule(info)
         self.assertIs(mod, Scripting)
 
+    @ut.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_clsid(self):
         clsid = comtypes.GUID.from_progid("MediaPlayer.MediaPlayer")
         mod = comtypes.client.GetModule(clsid)
