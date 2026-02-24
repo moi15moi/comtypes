@@ -1,4 +1,4 @@
-from ctypes import HRESULT, POINTER, OleDLL, WinDLL, byref, c_int, c_ulong, c_void_p
+from ctypes import HRESULT, POINTER, OleDLL, WinDLL, byref, c_int, c_size_t, c_ulong, c_void_p
 from ctypes import c_size_t as SIZE_T
 from ctypes.wintypes import DWORD, LPVOID
 from typing import TYPE_CHECKING, Any, Optional
@@ -10,10 +10,10 @@ from comtypes.GUID import _CoTaskMemFree as _CoTaskMemFree
 class IMalloc(IUnknown):
     _iid_ = GUID("{00000002-0000-0000-C000-000000000046}")
     _methods_ = [
-        COMMETHOD([], c_void_p, "Alloc", ([], c_ulong, "cb")),
-        COMMETHOD([], c_void_p, "Realloc", ([], c_void_p, "pv"), ([], c_ulong, "cb")),
+        COMMETHOD([], c_void_p, "Alloc", ([], c_size_t, "cb")),
+        COMMETHOD([], c_void_p, "Realloc", ([], c_void_p, "pv"), ([], c_size_t, "cb")),
         COMMETHOD([], None, "Free", ([], c_void_p, "py")),
-        COMMETHOD([], c_ulong, "GetSize", ([], c_void_p, "pv")),
+        COMMETHOD([], c_size_t, "GetSize", ([], c_void_p, "pv")),
         COMMETHOD([], c_int, "DidAlloc", ([], c_void_p, "pv")),
         COMMETHOD([], None, "HeapMinimize"),  # 25
     ]

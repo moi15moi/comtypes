@@ -29,7 +29,6 @@ IS_ARM = (
 )
 
 class Test(ut.TestCase):
-    @ut.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_Realloc(self):
         malloc = CoGetMalloc()
         size1 = 4
@@ -49,7 +48,6 @@ class Test(ut.TestCase):
         malloc.HeapMinimize()
         del ptr3
 
-    @ut.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_SHGetKnownFolderPath(self):
         ptr = LPWSTR()
         hr = _SHGetKnownFolderPath(
