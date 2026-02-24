@@ -27,13 +27,14 @@ class IMalloc(IUnknown):
         def HeapMinimize(self) -> None: ...
 
 
-_ole32 = OleDLL("ole32")
+#_ole32 = OleDLL("ole32")
 
-_CoGetMalloc = _ole32.CoGetMalloc
-_CoGetMalloc.argtypes = [DWORD, POINTER(POINTER(IMalloc))]
-_CoGetMalloc.restype = HRESULT
 
 _ole32_nohresult = WinDLL("ole32")
+
+_CoGetMalloc = _ole32_nohresult.CoGetMalloc
+_CoGetMalloc.argtypes = [DWORD, POINTER(POINTER(IMalloc))]
+_CoGetMalloc.restype = HRESULT
 
 _CoTaskMemAlloc = _ole32_nohresult.CoTaskMemAlloc
 _CoTaskMemAlloc.argtypes = [SIZE_T]
