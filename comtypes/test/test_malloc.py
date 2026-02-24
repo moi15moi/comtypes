@@ -1,3 +1,4 @@
+import platform
 import unittest as ut
 from ctypes import HRESULT, POINTER, OleDLL, byref
 from ctypes.wintypes import DWORD, HANDLE, LPWSTR
@@ -23,6 +24,9 @@ _SHGetKnownFolderPath.argtypes = [
 ]
 _SHGetKnownFolderPath.restype = HRESULT
 
+IS_ARM = (
+    platform.machine().lower() in ("arm64", "aarch64")
+)
 
 class Test(ut.TestCase):
     def test_Realloc(self):

@@ -1,4 +1,4 @@
-import unittest
+import platform
 from ctypes import (
     POINTER,
     Structure,
@@ -12,11 +12,17 @@ from ctypes import (
     cast,
     sizeof,
 )
+import unittest
 
 import comtypes.util
 from comtypes import GUID, CoCreateInstance, IUnknown, shelllink
 
 
+IS_ARM = (
+    platform.machine().lower() in ("arm64", "aarch64")
+)
+
+@unittest.skipIf(IS_ARM, "Broken on Windows ARM")
 class ByrefAtTest(unittest.TestCase):
     def test_ctypes(self):
         for ctype, value in [

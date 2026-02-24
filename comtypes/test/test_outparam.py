@@ -1,4 +1,5 @@
 import logging
+import platform
 import unittest
 from ctypes import (
     c_wchar,
@@ -19,6 +20,9 @@ logger = logging.getLogger(__name__)
 malloc = CoGetMalloc()
 assert bool(malloc)
 
+IS_ARM = (
+    platform.machine().lower() in ("arm64", "aarch64")
+)
 
 def from_outparam(self):
     if not self:
@@ -45,6 +49,7 @@ def comstring(text, typ=c_wchar_p):
 
 class Test(unittest.TestCase):
     @patch.object(c_wchar_p, "__ctypes_from_outparam__", from_outparam)
+    @unittest.skipIf(IS_ARM, "Broken on Windows ARM")
     def test_c_char(self):
         # Allocate memory from the Python/C runtime heap.
         # This ensures the address is valid but "unallocated" from COM.
